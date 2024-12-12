@@ -39,4 +39,27 @@ function delete_stagiaire_by_id($id){
  
 }
 
+// Modifie un stagiaire par id
+function update_stagiaire_by_id($id,$nom,$prenom){
+
+    $connexion = connect_db();
+    $sql= "UPDATE membres SET nom_membre = :nom, login_membre = :prenom WHERE id_membre = :id";
+    $reponse = $connexion->prepare($sql);
+    $reponse->bindValue(":id", intval($_GET["id"]), PDO::PARAM_INT);
+    $reponse->bindValue(":nom", $_GET["nom"], PDO::PARAM_STR);
+    $reponse->bindValue(":prenom", $_GET["prenom"], PDO::PARAM_STR);
+    $reponse->execute();
+
+}
+//Ajoute un stagiaire
+function add_stagiaire($prenom,$nom){
+    
+    $connexion = connect_db();
+    $sql = "INSERT INTO membres(`nom_membre`, `login_membre`) VALUES (:nom,:prenom)";
+    $reponse = $connexion->prepare($sql);
+    $reponse->bindValue(":nom",$_GET["nom"], PDO::PARAM_STR);
+    $reponse->bindValue(":prenom", $_GET["prenom"], PDO::PARAM_STR);
+    $reponse->execute();
+}
+
 ?>
